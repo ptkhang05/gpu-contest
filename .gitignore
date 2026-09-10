@@ -1,0 +1,24 @@
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Rust/build outputs
+target/
+**/target/
+
+# Generated schedules, logs, and local model data
+**/target/schedules/
+*.log
+models/
+checkpoints/
+*.safetensors
+
+# IDE/OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
