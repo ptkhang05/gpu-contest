@@ -1,22 +1,23 @@
 # Kiểm tra các resource chính thức
 
-> Kiểm tra ngày 2026-09-08 (Asia/Saigon). Trạng thái website và nội dung “latest” có thể
+> Kiểm tra lại ngày 2026-09-13 (Asia/Saigon). Trạng thái website và nội dung “latest” có thể
 > thay đổi; luôn đối chiếu lại trước khi chốt kế hoạch hoặc nộp bài.
 
 ## Resource chính trên trang cuộc thi
 
 | Resource | Trạng thái truy cập | Nội dung và giá trị sử dụng |
 |---|---|---|
-| [Baseline repository](https://github.com/HoseongLee/furiosa-opt-gemma4-12B) | HTTP 200; đã clone | Competition skeleton và competition guide. README là nguồn chính cho scope, code được phép sửa, tolerance, test và toolchain. Bản cục bộ nằm trong `baseline/`, commit `4bf1bac714d8bb9e3b8639e450a0c69d5aee93ba`. |
+| [Baseline repository mới](https://github.com/micro2026-moa/furiosa-opt-gemma4-12B) | Truy cập được; đã đồng bộ | Competition skeleton và guide. Bản cục bộ nằm trong `baseline/`, commit `850428729c1b9af0c0b86a9cf694e3b4b4486b29`. Repository cũ đã được thay thế và commit history đổi. |
 | [Programming Tensor Contraction Processors](https://developer.furiosa.ai/furiosa-opt/book/) | HTTP 200 | Sách lập trình `furiosa-opt`/vISA: setup, mapping, moving tensors, compute engines, scheduling, tuning và tools. Tài liệu tự ghi đây là alpha/experimental build; `furiosa_opt_std` rustdoc là API source có thẩm quyền cho release đã xuất bản. |
-| [FuriosaAI Arena](https://arena.furiosa.ai/) | HTTP 200 | Trang SPA có tiêu đề `RNGD Job Scheduler`. Nội dung công khai không hiển thị workflow nếu chưa có quyền/phiên đăng nhập. Quyền Arena được ban tổ chức cấp cho người đã đăng ký; thao tác CLI dùng `rngd`. |
+| [FuriosaAI Arena](https://arena.furiosa.ai/) | HTTP 200 | Trang scheduler RNGD; dùng `furiosa-arena` CLI để chạy public test. Tài khoản đã được xác nhận truy cập trong `ARENA_ACCESS_CHECK.md`. |
 
 ## Các link kỹ thuật được baseline dẫn tới
 
 | Link | Trạng thái | Ghi chú |
 |---|---|---|
 | [`furiosa_opt_std` API](https://docs.rs/furiosa-opt-std/latest/furiosa_opt_std/) | HTTP 200 | Rust API docs cho tensor types, mapping expressions và engine modules. Dùng để xác minh signature/API thay vì suy đoán từ ví dụ. |
-| [`furiosa-arena-cli`](https://github.com/kreatinj/furiosa-arena-cli#installation) | HTTP 200 | Hướng dẫn cài CLI Arena. Baseline chỉ dẫn `cargo binstall furiosa-arena-cli`, sau đó `rngd login`. |
+| [`furiosa-arena-cli`](https://github.com/kreatinj/furiosa-arena-cli#installation) | HTTP 200 | Hướng dẫn cài CLI Arena. Baseline mới chỉ dẫn `cargo binstall furiosa-arena-cli`, sau đó `furiosa-arena login`. |
+| [`moa-submitter-cli`](https://github.com/micro2026-moa/moa-submitter-cli) | Truy cập được | CLI submission chính thức: `moa-submitter login`, `submit`, `status`, `log`. Khác với Arena public test. |
 | [Kernel Optimizer](https://developer.furiosa.ai/furiosa-opt/book/tools/kernel-optimizer.html) | HTTP 200 | Tham chiếu đầy đủ cho `cargo furiosa-opt`, compile trực tiếp và các cờ dump schedule/vISA/IR/DFG/graph/summary. |
 | [Kernel Validation](https://developer.furiosa.ai/furiosa-opt/book/quick-start/kernel-validation.html) | HTTP 200 | Phân biệt compile validity, correctness bằng oracle, chạy NPU thật và schedule tĩnh. Schedule makespan không tự nó là throughput measurement. |
 | [Contraction Engine](https://developer.furiosa.ai/furiosa-opt/book/computing-tensors/contraction-engine/index.html) | HTTP 200 | Giải thích Broadcast–Multiply–Reduce, TRF, main/sub context và giới hạn mapping liên quan contraction. |
@@ -42,9 +43,7 @@
 
 ## Giới hạn truy cập hiện tại
 
-- Arena chỉ trả về shell của ứng dụng scheduler khi chưa có tài khoản/phiên đăng nhập;
-  chưa thể xác nhận queue, quota hoặc endpoint riêng của cuộc thi.
-- Những thông số submission và scoring được README đánh dấu TBD vẫn chưa xuất hiện trong
-  các resource công khai đã kiểm tra.
-- Không có bằng chứng công khai trong các link trên về tài trợ chuyến đi, quota submission,
-  số finalist hoặc công thức tính điểm cuối cùng.
+- Chưa có bằng chứng về quota submission, số finalist, tie-break Stage 1 hoặc tài trợ
+  chuyến đi. Deadline submission chính xác vẫn TBD trong README.
+- Công thức Stage 1 đã được công bố là trung bình nhân speedup trên ba kernel; Stage 2
+  metric và benchmark vẫn TBD.

@@ -1,9 +1,11 @@
 # NPU Model Optimization Competition — hồ sơ yêu cầu
 
-> Bản chụp thông tin được kiểm tra ngày **2026-09-09** (Asia/Saigon).
-> Website chính thức được lưu tại commit `00d6217de3701e6a6eb59780ca2f2ddc5c6a47f1`.
-> Repository baseline được lưu tại commit `4bf1bac714d8bb9e3b8639e450a0c69d5aee93ba`
-> (commit time `2026-09-08T05:45:54Z`). Các mục được ban tổ chức ghi **TBD/TBA**
+> Bản chụp thông tin được kiểm tra ngày **2026-09-13** (Asia/Saigon).
+> Website chính thức được lưu tại commit `e0360649fd8a8ecdc491a27eaf7e67e2892c6751`.
+> Repository baseline mới của ban tổ chức được lưu tại commit
+> `850428729c1b9af0c0b86a9cf694e3b4b4486b29`. Repository cũ
+> `HoseongLee/furiosa-opt-gemma4-12B` không còn là nguồn làm việc chính; lịch sử Git
+> đã thay đổi khi di chuyển. Các mục được ban tổ chức ghi **TBD/TBA**
 > bên dưới chưa phải quy định hoàn chỉnh và cần kiểm tra lại khi có thông báo mới.
 
 ## 1. Thông tin tổng quan
@@ -26,10 +28,12 @@
 
 ### 2.1. Điều kiện tư cách
 
-- Cuộc thi chỉ dành cho người **đang có tư cách sinh viên** (undergraduate hoặc graduate).
-- Người vừa đi làm vừa đang theo học vẫn đủ điều kiện (FAQ nêu ví dụ degree dispatch program).
-- Người đã tốt nghiệp và không còn là sinh viên **không đủ điều kiện**.
-- Form đăng ký mô tả cuộc thi là mở cho sinh viên trên toàn thế giới.
+- Theo FAQ cập nhật ngày 11/09, **mọi người đều có thể tham gia** cuộc thi.
+- **Chỉ người có tư cách sinh viên mới đủ điều kiện nhận giải thưởng**.
+- Người vừa đi làm vừa đang theo học bậc undergraduate/graduate vẫn được coi là sinh viên
+  (FAQ nêu ví dụ degree dispatch program).
+- Người đã tốt nghiệp và không còn là sinh viên vẫn có thể tham gia, nhưng không đủ điều
+  kiện nhận giải. Đây là thay đổi so với FAQ cũ ngày 09/09.
 
 ### 2.2. Cá nhân và đội
 
@@ -59,8 +63,7 @@
     mình, chỉ rõ đại diện đội; tất cả thành viên cung cấp cùng danh sách.
   - `Leaderboard Name` — không bắt buộc; nếu thi đội, tất cả thành viên phải nhập cùng
     tên. Nếu để trống sẽ hiển thị dạng `Participant #XXX`.
-  - `School` — bắt buộc; form ghi nếu không đang theo học thì nhập `N/A` (tuy nhiên FAQ
-    đồng thời quy định người không còn là sinh viên không đủ điều kiện).
+  - `School` — bắt buộc; form ghi nếu không đang theo học thì nhập `N/A`.
   - `Department` — bắt buộc; nếu không đang theo học thì nhập `N/A`.
   - `Current Degree Program` — bắt buộc; lựa chọn gồm `Undergraduate`, `Master's`,
     `Ph.D.`, hoặc lựa chọn tự điền.
@@ -123,8 +126,10 @@ Các kernel dùng trọng số lượng tử hóa và tensor layout hiện có c
    tham số và kiểu trả về đều thuộc hợp đồng evaluator.
 2. Chỉ các thay đổi sau được đưa vào đánh giá:
    - mọi thay đổi trong `src/device/`;
-   - phần thân hàm trong `src/ops.rs`, `src/ops_vision.rs`, `src/ops_audio.rs`.
+   - phần thân hàm trong `src/ops.rs`.
 3. Các thay đổi trong những nơi sau **bị bỏ qua khi chấm**:
+   - `src/ops_vision.rs`;
+   - `src/ops_audio.rs`;
    - `src/axes.rs`;
    - `src/host/`;
    - `src/api/`;
@@ -140,10 +145,9 @@ Các kernel dùng trọng số lượng tử hóa và tensor layout hiện có c
 
 ### 3.5. Các quy định Stage 1 chưa được công bố (TBD)
 
-- URL grading server và cách xác thực.
-- Định dạng submission archive và lệnh submission.
-- Deadline submission và số submission tối đa cho mỗi đội.
-- Công thức kết hợp cycle count của ba kernel.
+- **Deadline submission** chính xác. Trang chính vẫn ghi vòng Kernel Optimization
+  01–25/09/2026, nhưng README để riêng deadline kỹ thuật là TBD.
+- Số submission tối đa cho mỗi đội chưa thấy được nêu; không suy ra là không giới hạn.
 
 Lưu ý: trang chính hiện ghi thời gian vòng Kernel Optimization là 01–25/09/2026, nhưng
 README vẫn đánh dấu **submission deadline** chi tiết là TBD. Không tự suy diễn rằng 25/09
@@ -170,13 +174,20 @@ là deadline kỹ thuật cuối cùng cho tới khi ban tổ chức xác nhận
 
 - Mọi submission phải pass correctness trước khi được xếp hạng hiệu năng.
 - Stage 1 đo cycle count thực trên RNGD cho từng kernel bằng official evaluation.
+- Điểm Stage 1 là **trung bình nhân của speedup so với baseline** trên ba kernel. Nếu
+  ký hiệu `B_i` là cycle baseline và `C_i` là cycle submission của kernel `i`, công thức
+  diễn giải là `(∏(B_i/C_i))^(1/3)`. Đây là suy diễn toán học từ mô tả của README;
+  các giá trị baseline và chính sách xử lý lỗi vẫn phải xem kết quả chấm chính thức.
+- Chỉ **điểm cao nhất của mỗi đội** xuất hiện trên leaderboard.
 - Stage 2 E2E metric hiện chưa công bố.
 - **Schedule makespan chỉ là metric hỗ trợ phát triển**, không thay thế kết quả chấm chính thức.
-- Các giá trị sau vẫn TBD:
-  - performance metric và weighting;
+- Các giá trị sau vẫn TBD/chưa được giải thích đầy đủ:
   - cách xử lý run fail hoặc timeout;
   - yêu cầu/tác động của reproducibility và code review.
-- README chưa công bố score formula và tie-break rule hoàn chỉnh.
+- README còn một bảng `Performance metric and weighting: TBD` dù phần nộp bài đã công bố
+  trung bình nhân speedup cho Stage 1. Ưu tiên công thức Stage 1 cụ thể, nhưng cần theo
+  dõi xem ban tổ chức có giải thích/sửa bảng tổng quát này hay không.
+- Tie-break Stage 1 chưa được nêu rõ.
 
 ## 6. Quy trình chuẩn bị, kiểm tra và nộp
 
@@ -197,10 +208,10 @@ python3 scripts/generate_references.py
 ./scripts/rngd_test.sh
 ```
 
-- Script build test binary, gửi qua RNGD scheduler, rồi báo accuracy và cycle count thực.
+- Script build test binary, gửi qua Arena server, rồi báo accuracy và cycle count thực.
 - `--no-build`: dùng lại binary mới nhất.
 - `--no-wait`: gửi job và thoát mà không chờ kết quả.
-- Cần cấu hình Arena CLI và chạy `rngd login` trước.
+- Cần cấu hình Arena CLI và chạy `furiosa-arena login` trước.
 - Với RNGD cục bộ có thể dùng:
 
 ```sh
@@ -209,10 +220,18 @@ python3 scripts/generate_references.py
 
 ### 6.3. Nộp bài
 
-- Trang chính yêu cầu nộp theo hướng dẫn trong README baseline.
-- Tuy nhiên tại commit đã chụp, định dạng archive, submission command, URL/auth server,
-  deadline kỹ thuật và quota submission đều đang TBD; vì vậy chưa có quy trình nộp hoàn chỉnh.
-- Submission pass correctness sẽ được xếp theo performance trên leaderboard.
+- Cài CLI submission: `cargo binstall moa-submitter-cli`.
+- Đăng nhập: `moa-submitter login` (README của CLI ghi token có hạn 30 ngày).
+- Nộp từ **root của repository baseline**: `moa-submitter submit`. Trong workspace này
+  root baseline là `baseline/`, **không phải root project cha**. Có thể dùng
+  `moa-submitter submit --source path/to/furiosa-opt-gemma4-12B`.
+- `submit` tải lên `src/ops.rs` và toàn bộ `src/device/`; phải giữ nguyên cấu trúc thư mục.
+- `moa-submitter status`: 20 submission gần nhất; `-n 50` chọn số lượng khác;
+  `--all` xem toàn bộ. `status <id>` xem cycle count, score, lý do fail;
+  `log <id>` xem log theo từng stage.
+- Submission pass correctness mới được tính performance; chỉ điểm cao nhất của đội
+  hiển thị trên leaderboard.
+- Không nộp bài trong bước cập nhật tài liệu này.
 
 ## 7. Môi trường và toolchain được hỗ trợ
 
@@ -226,22 +245,22 @@ sudo apt install gcc-aarch64-linux-gnu
 
 rustup toolchain install nightly-2026-05-01
 cargo +nightly-2026-05-01 install cargo-binstall
-cargo +nightly-2026-05-01 binstall cargo-furiosa-opt
+cargo +nightly-2026-05-01 binstall cargo-furiosa-opt@0.6.0
 cargo install furiosa-schedule-viewer
 
 cargo binstall furiosa-arena-cli
-rngd login
+furiosa-arena login
 ```
 
 - Lệnh scheduler phục vụ troubleshooting:
 
 | Lệnh | Mục đích |
 |---|---|
-| `rngd submit <file>` | Gửi script hoặc binary |
-| `rngd status <id>` | Xem trạng thái job |
-| `rngd logs <id> --follow` | Theo dõi log job |
-| `rngd list` | Liệt kê job |
-| `rngd cancel <id>` | Hủy job đang chờ hoặc đang chạy |
+| `furiosa-arena submit <file>` | Gửi script hoặc binary |
+| `furiosa-arena status <id>` | Xem trạng thái job |
+| `furiosa-arena logs <id> --follow` | Theo dõi log job |
+| `furiosa-arena list` | Liệt kê job |
+| `furiosa-arena cancel <id>` | Hủy job đang chờ hoặc đang chạy |
 
 ## 8. Workflow tối ưu được ban tổ chức hướng dẫn
 
@@ -280,6 +299,7 @@ rngd login
 |---|---|
 | Registration Period | **2026-09-01 – 2026-09-15** |
 | Kernel Optimization Round | **2026-09-01 – 2026-09-25** |
+| Tutorial online | **2026-09-15 23:00 – 2026-09-16 00:00 UTC** = **2026-09-16 06:00–07:00 ICT (giờ Việt Nam)** |
 | Finalists Announcement | **2026-09-30** |
 | Model Optimization Round | **2026-10-01 – 2026-10-25** |
 | Award Ceremony | **2026-11-01**; giờ và địa điểm cụ thể TBA |
@@ -300,7 +320,13 @@ rngd login
 
 ## 11. Tutorial, hỗ trợ và liên hệ
 
-- Ban tổ chức đang chuẩn bị tutorial session; ngày và chi tiết chưa công bố.
+- Tutorial **MOA 2026 NPU Kernel Optimization** diễn ra qua Google Meet vào
+  **06:00–07:00 sáng thứ Tư 16/09/2026, giờ Việt Nam (UTC+7)**.
+  Link: <https://meet.google.com/ggm-irua-umo>.
+- Website nói bản ghi sẽ được chia sẻ sau buổi tutorial cho người không dự trực tiếp.
+- Website cũng thông báo bảo trì submission server từ 12/09 09:00 đến 13/09 00:30
+  **AoE (UTC−12)**; Arena vẫn hoạt động. Mốc kết thúc tương ứng 13/09 19:30 giờ Việt
+  Nam. Đây là thông báo thời gian cụ thể, không phải tình trạng server hiện tại.
 - Câu hỏi kỹ thuật: dùng **FuriosaAI forums** để câu trả lời được chia sẻ với mọi người.
 - Câu hỏi cá nhân: `moa2026.competition@gmail.com`.
 
@@ -308,12 +334,13 @@ rngd login
 
 - Trang cuộc thi: <https://micro2026-moa.github.io/>
 - Bản source website đã khóa theo commit nằm trong `official-site-snapshot/`.
-- FAQ (last modified hiển thị: `2026-09-09`):
+- FAQ (last modified hiển thị: `2026-09-11`):
   <https://micro2026-moa.github.io/faq.html>
 - Form đăng ký:
   <https://docs.google.com/forms/d/e/1FAIpQLScOBksLrh4AW5ApaWLEEAdY1pXb4nwV6N1_DFuDWO8kCRc_4A/viewform>
 - Baseline/competition guide:
-  <https://github.com/HoseongLee/furiosa-opt-gemma4-12B>
+  <https://github.com/micro2026-moa/furiosa-opt-gemma4-12B>
+- CLI nộp bài: <https://github.com/micro2026-moa/moa-submitter-cli>
 - Bản repository baseline đã khóa theo commit nằm trong `baseline/`.
 - Tài liệu `furiosa-opt`: <https://developer.furiosa.ai/furiosa-opt/book/>
 - FuriosaAI Arena: <https://arena.furiosa.ai/>
@@ -323,11 +350,8 @@ rngd login
 
 Danh sách này không phải suy đoán; đây là các mục chính nguồn hiện ghi TBD/TBA hoặc chưa nêu:
 
-- tutorial date/details;
-- grading server URL và authentication;
-- submission archive format và submission command;
 - deadline submission kỹ thuật và quota submission mỗi đội;
-- công thức gộp cycle count Stage 1;
+- chi tiết baseline cycle chính thức và tie-break Stage 1;
 - toàn bộ benchmark configuration, correctness threshold, metric và repetitions Stage 2;
 - Stage 2 deadline submission, score formula và tie-break;
 - policy cho fail/timeout;

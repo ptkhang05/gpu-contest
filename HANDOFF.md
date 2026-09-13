@@ -11,14 +11,21 @@ end-to-end model optimization.
 - The private working repository contains the complete baseline as ordinary files, not a
   Git submodule.
 - Official baseline provenance:
-  `HoseongLee/furiosa-opt-gemma4-12B@4bf1bac714d8bb9e3b8639e450a0c69d5aee93ba`.
+  `micro2026-moa/furiosa-opt-gemma4-12B@850428729c1b9af0c0b86a9cf694e3b4b4486b29`.
+  The original HoseongLee repository was replaced, with rewritten commit history.
 - Official site snapshot provenance:
-  `micro2026-moa/micro2026-moa.github.io@00d6217de3701e6a6eb59780ca2f2ddc5c6a47f1`.
+  `micro2026-moa/micro2026-moa.github.io@e0360649fd8a8ecdc491a27eaf7e67e2892c6751`.
 - Registration is confirmed.
 - FuriosaAI Arena access is confirmed for the registered GitHub account.
 - No Arena job has been submitted yet.
-- Submission format, submission quota, final Stage 1 score formula, and most Stage 2
-  benchmark details remain TBD as of the last source check.
+- Stage 1 submission uses `moa-submitter-cli` from `baseline/`. The score is the
+  geometric mean of speedups over the baseline for three kernels; only a team's best
+  score appears on the leaderboard.
+- The exact Stage 1 submission deadline, any quota, and most Stage 2 benchmark details
+  remain TBD as of the last source check.
+- The tutorial is on September 16, 2026, 06:00–07:00 Vietnam time at
+  <https://meet.google.com/ggm-irua-umo>. The website says a recording will follow.
+- Updated FAQ: anyone may participate, but only current students may receive awards.
 
 ## Key files
 
@@ -34,10 +41,12 @@ end-to-end model optimization.
 1. Clone this repository on supported Ubuntu.
 2. Install the pinned Rust/Furiosa toolchain from `baseline/README.md`.
 3. Generate the public fixture if it is not present.
-4. Configure `furiosa-arena-cli` and run `rngd login` locally on Ubuntu.
+4. Configure `furiosa-arena-cli` and run `furiosa-arena login` locally on Ubuntu.
 5. Run the untouched baseline public RNGD test and preserve the output as the initial
    correctness/performance baseline.
 6. Analyze schedules for each Stage 1 kernel before implementing optimizations.
+7. When ready to submit for grading, use `moa-submitter` from `baseline/`; public Arena
+   tests and official grading submissions are different workflows.
 
 ## Prompt for a new Codex session
 
@@ -47,4 +56,3 @@ Use this exact prompt after selecting this repository:
 > `YEU_CAU_CUOC_THI.md` and `baseline/README.md` as the current competition context. Tell
 > me what is already complete, verify whether the official site or baseline has changed,
 > and continue from the next intended work without redoing completed setup.
-

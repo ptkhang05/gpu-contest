@@ -1,6 +1,7 @@
 # Kiểm tra quyền FuriosaAI Arena
 
 > Kiểm tra read-only ngày **2026-09-09** qua phiên trình duyệt người dùng đã đăng nhập.
+> Các quan sát UI bên dưới là bản ghi lịch sử, không phải trạng thái Arena hiện tại.
 > Không gửi, sửa hoặc hủy job; không tải file lên.
 
 ## Kết quả xác nhận
@@ -36,7 +37,8 @@
 - Quyền Arena đã được phê duyệt.
 - Người tham gia đăng nhập Arena bằng GitHub account đã khai trong form.
 - Arena là scheduler cho máy chủ RNGD dùng chung, nơi submission được chạy và đánh giá.
-- Tutorial vẫn đang chuẩn bị; lịch/chi tiết sẽ đăng trên website.
+- Vào 09/09 tutorial vẫn đang chuẩn bị; thông tin này đã lỗi thời. Xem
+  `YEU_CAU_CUOC_THI.md` để biết lịch được công bố sau đó.
 - Câu hỏi toolchain/RNGD: FuriosaAI Forum.
 - Vấn đề registration/account: `moa2026.competition@gmail.com`.
 
@@ -44,7 +46,8 @@
 
 - Không có tên competition/namespace riêng hiển thị trên trang chính.
 - Chưa thấy quota số job/submission mỗi ngày hoặc mỗi đội.
-- Chưa thấy submission archive format hay score formula.
+- Giao diện Arena ngày 09/09 không hiển thị submission format hoặc score formula;
+  chúng đã được công bố sau đó ở baseline repository mới và `moa-submitter-cli`.
 - Chưa thể xác nhận ý nghĩa chính xác của chỉ số storage nếu không có tài liệu server.
 - Chưa chạy job thử, nên chưa xác nhận toolchain upload, entrypoint, log hoặc cycle output.
 
