@@ -62,7 +62,7 @@ pub fn sliding_project_qkv(
     let x: DmTensor<bf16, Chip, Cluster, layout::SlidingBroadcastSeed, m![H]> =
         x.to_dm(&mut ctx.tdma);
     let x: DmTensor<bf16, Chip, Cluster, Replicated, m![H]> =
-        layout::broadcast_hidden_2x128(ctx, &x);
+        layout::broadcast_hidden_4x64(ctx, &x);
 
     let q: DmTensor<bf16, Chip, Cluster, Slice, m![Ns, Gs, Ds]> =
         sliding::projection::project_query(ctx, &x, q_weight, q_weight_scale);

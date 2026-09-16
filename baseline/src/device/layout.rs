@@ -8,7 +8,7 @@ pub(crate) type Cluster = m![1 # 2];
 pub(crate) type Slice = m![1 # 256];
 
 pub(crate) type Replicated = m![Dummy256];
-pub(crate) type SlidingBroadcastSeed = m![Dummy2, 1 # 128];
+pub(crate) type SlidingBroadcastSeed = m![Dummy8 / 2, 1 # 64];
 
 
 pub(crate) fn broadcast_hidden(
@@ -27,7 +27,7 @@ pub(crate) fn broadcast_hidden(
     unsafe { x.reshape() }
 }
 
-pub(crate) fn broadcast_hidden_2x128(
+pub(crate) fn broadcast_hidden_4x64(
     ctx: &mut Context,
     x: &DmTensor<bf16, Chip, Cluster, SlidingBroadcastSeed, m![H]>,
 ) -> DmTensor<bf16, Chip, Cluster, Replicated, m![H]> {
@@ -35,14 +35,14 @@ pub(crate) fn broadcast_hidden_2x128(
         bf16,
         Chip,
         Cluster,
-        m![Dummy2, Dummy256 / 2],
+        m![Dummy8 / 2, Dummy256 / 4],
         m![H],
     > = ctx
         .main
         .begin(x.view())
         .fetch::<m![1], m![H]>()
-        .switch::<m![Dummy2, Dummy256 / 2], m![1]>(
-            SwitchConfig::CustomBroadcast { ring_size: 128 },
+        .switch::<m![Dummy8 / 2, Dummy256 / 4], m![1]>(
+            SwitchConfig::CustomBroadcast { ring_size: 64 },
         )
         .collect::<m![H / 16], m![H % 16]>()
         .commit_trim::<m![H % 16]>()
