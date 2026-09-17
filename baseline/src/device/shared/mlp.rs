@@ -405,9 +405,6 @@ pub(crate) fn project_down(
                 .cast::<bf16, m![L % 8 # 16]>()
                 .commit_trim::<m![L % 8]>()
                 .commit();
-            let down_weight_tile: DmTensor<bf16, Chip, Cluster, DownRowsByColumns, m![H % 120 = 2, L % 1920]> =
-                down_weight_tile.to_dm(&mut ctx.tdma);
-
             down_weight_tile.view().to_dm_view(
                 &mut ctx.tdma,
                 down_weight
